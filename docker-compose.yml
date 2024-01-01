@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:16.1-alpine
+    environment:
+      - POSTGRES_USER=auction
+      - POSTGRES_PASSWORD=auction
+      - POSTGRES_DB=auction
+    healthcheck:
+      test: pg_isready -U auction -d auction
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    container_name: postgres-local
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./infrastructure/postgres-data:/var/lib/postgresql/data:cached
+  redis:
+    image: redis/redis-stack
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    container_name: redis-local
+    healthcheck:
+      test: redis-cli ping
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./infrastructure/redis/data:/data
+
+volumes:
+  infrastructure:
