@@ -1,11 +1,24 @@
-from core.auction.model import AuctionORM
+import uuid
+
+from core.auction.model import AuctionORM, AuctionItemORM
 from core.common.repositories.base import Repository
-from core.auction.domain import Auction
+from core.auction.domain import Auction, AuctionItem
+from core.auction.exceptions import AuctionNotFoundError
+
+from sqlalchemy import exc
 
 
 class AuctionRepository(Repository):
 
-    def save_auction(self, auction: Auction):
+    def get_by_id(self, *, auction_id: uuid.UUID) -> Auction:
+        try:
+            auction_orm: AuctionORM = self._session.get_one(AuctionORM, {"id": auction_id})  # noqa
+        except exc.NoResultFound:
+            raise AuctionNotFoundError
+        return auction_orm.convert_to_domain()
+
+    def save(self, auction: Auction, auction_item: AuctionItem) -> None:
         auction_orm = AuctionORM.build_from_domain(auction=auction)
-        self.session.add(auction_orm)
-        self.session.commit()
+        auction_item_orm = AuctionItemORM.build_from_domain(auction_item=auction_item)
+        self._session.add_all([auction_orm, auction_item_orm])
+        self._session.commit()

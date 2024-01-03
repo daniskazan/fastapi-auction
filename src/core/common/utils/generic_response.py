@@ -1,10 +1,11 @@
-from typing import Generic, TypeAlias, TypeVar, Union, Tuple, Iterable
+from typing import Generic, TypeAlias, TypeVar, Union, Tuple, Iterable, Any
 
+from pydantic import ConfigDict
 from pydantic import BaseModel
 from pydantic import conint
 
 
-T = TypeVar("T")
+T = TypeVar("T", bound=object)
 
 
 StatusCode: TypeAlias = int
@@ -30,6 +31,7 @@ def additional_responses(responses: Responses) -> StatusCodeToResponseSchemaMapp
 
 
 class OkResponse(BaseModel, Generic[T]):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     status_code: conint(ge=200, le=299)
     data: T
 
