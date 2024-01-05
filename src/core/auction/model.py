@@ -44,7 +44,7 @@ class AuctionItemORM(BaseORMModel):
 class AuctionORM(BaseORMModel):
     __tablename__ = "auction"
 
-    user_id: orm.Mapped[uuid.UUID]
+    user_id: orm.Mapped[uuid.UUID] = orm.mapped_column(schema.ForeignKey("user.id"))
     finish_at: orm.Mapped[dt.datetime]
     title: orm.Mapped[str]
     description: orm.Mapped[str]

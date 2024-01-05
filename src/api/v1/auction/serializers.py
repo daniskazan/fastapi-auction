@@ -7,18 +7,18 @@ from core.common.serializers.base import PydanticBaseResponseModel
 from core.auction.enums import CurrencyEnum
 
 
-class AuctionItemContext(PydanticBaseResponseModel):
+class AuctionItemRequestBody(PydanticBaseResponseModel):
     image_url: str
     initial_price: decimal.Decimal = Field(default=decimal.Decimal(0.0))
     currency: CurrencyEnum = CurrencyEnum.USD
 
 
-class AuctionStartContext(PydanticBaseResponseModel):
+class AuctionStartRequestBody(PydanticBaseResponseModel):
     user_id: UUID
     finish_at: dt.datetime
     title: str
     description: str
-    auction_item: AuctionItemContext
+    auction_item: AuctionItemRequestBody
 
 
 class AuctionItemResponse(PydanticBaseResponseModel):
