@@ -21,12 +21,12 @@ def additional_responses(responses: Responses) -> StatusCodeToResponseSchemaMapp
     data = {}
     if isinstance(responses, tuple):
         code, schema = responses
-        data.update({code: {"model": schema}})
+        data.update({code: {"model.py": schema}})
         return data
 
     else:
         for code, schema in responses:
-            data.update({code: {"model": schema}})
+            data.update({code: {"model.py": schema}})
         return data
 
 

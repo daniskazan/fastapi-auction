@@ -9,4 +9,4 @@ class CurrencyEnum(enum.StrEnum):
 class AuctionStatusEnum(enum.StrEnum):
     ACTIVE = "ACTIVE"
     FINISHED = "FINISHED"
-    ARCHIVED = "ARCHIVED"
+    CANCELED = "CANCELED"

@@ -12,7 +12,8 @@ class AuctionItem:
     item_id: uuid.UUID
     auction_id: uuid.UUID
     image_url: str | None = None
-    starting_price: decimal.Decimal = decimal.Decimal(0.0)
+    initial_price: decimal.Decimal = decimal.Decimal(0.0)
+    current_price: decimal.Decimal = initial_price
     currency: CurrencyEnum = CurrencyEnum.USD
 
 
@@ -24,3 +25,4 @@ class Auction:
     title: str
     description: str
     auction_status: AuctionStatusEnum = AuctionStatusEnum.ACTIVE
+    auction_item: AuctionItem | None = None

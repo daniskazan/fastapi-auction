@@ -713,6 +713,17 @@ anyio = ">=3.4.0,<5"
 full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart", "pyyaml"]
 
 [[package]]
+name = "stories"
+version = "5.1.0"
+description = "Service objects designed with OOP in mind."
+optional = false
+python-versions = "*"
+files = [
+    {file = "stories-5.1.0-py2.py3-none-any.whl", hash = "sha256:b67ef87ddfa918e9baeb8fd0da4e0410c09127ca7181a8d929e58f9bea6645a9"},
+    {file = "stories-5.1.0.tar.gz", hash = "sha256:d0d9fc95dca4b1ac1ee49f5b6ffb93222a0b2cad12f10a5434b225cdb029babf"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.9.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -964,4 +975,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "6d7e65171afa4d5ce7de4957146564a7ffcfa65133563a96aa719131f926d277"
+content-hash = "e7019fce27f9dd4211dc87b68bd0d58dfe30f1904c00a1040aeed86c51b2a6c1"

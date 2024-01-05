@@ -13,7 +13,7 @@ class AuctionItemORM(BaseORMModel):
     __tablename__ = "auction_item"
     auction_id: orm.Mapped[uuid.UUID] = orm.mapped_column(schema.ForeignKey(column="auction.id"), unique=True)
     image_url: orm.Mapped[str | None] = orm.mapped_column(default=None)
-    starting_price: orm.Mapped[decimal.Decimal]
+    initial_price: orm.Mapped[decimal.Decimal]
     current_price: orm.Mapped[decimal.Decimal]
     currency: orm.Mapped[CurrencyEnum]
 
@@ -25,9 +25,19 @@ class AuctionItemORM(BaseORMModel):
             id=auction_item.item_id,
             auction_id=auction_item.auction_id,
             image_url=auction_item.image_url,
-            starting_price=auction_item.starting_price,
-            current_price=auction_item.starting_price,
+            initial_price=auction_item.initial_price,
+            current_price=auction_item.initial_price,
             currency=auction_item.currency
+        )
+
+    def convert_to_domain(self):
+        return AuctionItem(
+            item_id=self.id,
+            auction_id=self.auction_id,
+            image_url=self.image_url,
+            initial_price=self.initial_price,
+            current_price=self.current_price,
+            currency=self.currency
         )
 
 
@@ -42,16 +52,6 @@ class AuctionORM(BaseORMModel):
 
     auction_item: orm.Mapped["AuctionItemORM"] = orm.relationship(back_populates="auction")
 
-    def convert_to_domain(self,):
-        return Auction(
-            auction_id=self.id,
-            user_id=self.user_id,
-            finish_at=self.finish_at,
-            title=self.title,
-            description=self.description,
-            auction_status=self.auction_status
-        )
-
     @classmethod
     def build_from_domain(cls, auction: Auction):
         return cls(
@@ -61,6 +61,17 @@ class AuctionORM(BaseORMModel):
             title=auction.title,
             description=auction.description,
             auction_status=auction.auction_status
+        )
+
+    def convert_to_domain(self):
+        return Auction(
+            auction_id=self.id,
+            user_id=self.user_id,
+            finish_at=self.finish_at,
+            title=self.title,
+            description=self.description,
+            auction_status=self.auction_status,
+            auction_item=self.auction_item.convert_to_domain()
         )
 
     def __str__(self):
