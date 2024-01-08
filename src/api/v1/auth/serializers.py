@@ -25,4 +25,5 @@ class LoginBody(BaseModel):
 
 class LoginResponseSerializer(PydanticBaseResponseModel):
     "JWT Tokens"
+
     pass
